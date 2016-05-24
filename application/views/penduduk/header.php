@@ -140,7 +140,29 @@
 
 <!-- /section:basics/navbar.layout -->
 <div class="main-container" id="main-container">
-    <?php $this->load->view('template_in/sidebar');?>
+    <div id="sidebar" class="sidebar  responsive">
+
+
+
+        <!-- List Menu -->
+        <ul class="nav nav-list">
+            <li class="active" id="nav">
+                <a href="<?php echo site_url('home'); ?>">
+                    <i class="menu-icon fa fa-users"></i>
+                    <span class="menu-text"> Data Penduduk </span>
+                </a>
+
+                <b class="arrow"></b>
+            </li>
+        </ul><!-- /.nav-list -->
+        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+            <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left"
+               data-icon2="ace-icon fa fa-angle-double-right"></i>
+        </div>
+
+    
+        </script>
+    </div>
     <div class="main-content">
         <div class="main-content-inner">
             <div id="ajaxContent">

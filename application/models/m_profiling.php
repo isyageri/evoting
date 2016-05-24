@@ -85,6 +85,12 @@ class M_profiling extends CI_Model {
 		if($q->num_rows() > 0) $result = $q->result();
 		return $result;
     }
+
+    public function getMenuByModule($module_id) {
+    	$this->db->where('module_id',$module_id);
+    	$q = $this->db->get('menu');
+    	return $q->result();
+    }
 	
 	public function getBreadcrumb($menu_id) {
 		$str = "";

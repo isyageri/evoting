@@ -1,9 +1,8 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Penduduk extends CI_Controller
+class Kandidat extends CI_Controller
 {
 
-    private $head = "Penduduk";
 
     function __construct()
     {
@@ -14,25 +13,22 @@ class Penduduk extends CI_Controller
         $this->load->helper('breadcrumb');
         $this->load->model('M_jqGrid', 'jqGrid');
         $this->load->model('M_global');
-        $this->load->model('M_penduduk');
-
 
     }
 
     public function index()
     {
-        $this->load->view('penduduk/data_penduduk');
+        $this->load->view('kandidat/data_kandidat');
     }
 
-
-    public function gridClient()
+    public function gridKandidat()
     {
         $page = intval($_REQUEST['page']); // Page
         $limit = intval($_REQUEST['rows']); // Number of record/page
         $sidx = $_REQUEST['sidx']; // Field name
         $sord = $_REQUEST['sord']; // Asc / Desc
 
-        $table = "v_penduduk";
+        $table = "candidate";
 
         //JqGrid Parameters
         $req_param = array(

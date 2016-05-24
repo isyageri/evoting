@@ -66,7 +66,7 @@
         data: csfrData
     });
     $(document).ready(function () {
-         $('.setting_nav').click(function(){
+        /* $('.setting_nav').click(function(){
          var nav = $(this).attr('id');
          var ctrl = $(this).attr('href');
          if(!nav){
@@ -81,17 +81,17 @@
          url: ctrl,
          data: {title:title},
          success: function(data) {
-         $("#ajaxContent").html(data);
+         $("#main-content").html(data);
          },
          error: function(jqXHR, textStatus, errorThrown){
-         $("#ajaxContent").html(errorThrown);
+         $("#main-content").html(errorThrown);
          },
          timeout: 10000 // sets timeout to 10 seconds
          })
          return false;
          }
 
-         })
+         })*/
     })
 
 </script>
