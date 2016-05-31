@@ -70,18 +70,11 @@
                                     dataEvents: [
                                         { type: 'change', fn: function(e) {
                                                var rw_id = $('#rw_code option:selected').val();
-                                                alert(rw_id);
+                                                loadRT(rw_id);
                                             } 
                                         },
                                                 
-                                        ],
-                                    postData: function (rowid, value, cmName) {
-                                        var rw_id = $('#rw_code option:selected').val();
-        
-                                        return {
-                                            rw_id: rw_id
-                                        }
-                                    }
+                                        ]
                                 }
                 },
                 {
@@ -93,6 +86,7 @@
                     editrules: {required: true},
                     edittype: 'select',
                     editoptions: {dataUrl: '<?php echo site_url('penduduk/listRT');?>'}
+                    //editoptions: {value:""}
                 },
                 {
                     label: 'Jenis Kelamin',
@@ -210,6 +204,19 @@
 
 
         });
+
+        // Fn Load RT
+        function loadRT(rw_id){
+            $.ajax({
+                        url: '<?php echo site_url('penduduk/listRT');?>',
+                        data: {rw_id: rw_id},
+                        type: 'POST',
+                        success: function (data) {
+                            $("#rt_code").html(data);
+                        }
+                    });
+        }
+
         //navButtons grid master
         grid.jqGrid('navGrid', '#pager',
             { 	//navbar options

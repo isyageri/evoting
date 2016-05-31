@@ -8,9 +8,7 @@
         </div>
         &nbsp;
         <div class="col-xs-12">
-            <div id="detailsPlaceholder" style="display:none">
-                <table id="jqGridDetails"></table>
-                <div id="jqGridDetailsPager"></div>
+            <div id="identity">
             </div>
         </div>
     </div>
@@ -36,37 +34,44 @@
 
         var width = $("#jqgrid_wrapper").width();
         grid.jqGrid({
-            url: '<?php echo site_url('rt_rw/gridRW');?>',
+            url: '<?php echo site_url('penduduk/gridKritikSaran');?>',
             datatype: "json",
             mtype: "POST",
-            caption: "Daftar RW",
+            caption: "Kritik dan Saran",
             colModel: [
-                {label: 'ID', name: 'rw_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
+                {label: 'ID', name: 'kritik_saran_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
                 {
-                    label: 'Nama RW',
-                    name: 'rw_code',
-                    width: 140,
+                    label: 'No KTP',
+                    name: 'penduduk_id',
+                    width: 190,
                     align: "left",
                     editable: true,
                     editrules: {required: true},
                     editoptions: {size: 40}
                 },
                 {
-                    label: 'Keterangan',
-                    name: 'description',
-                    width: 190,
+                    label: 'Kritik',
+                    name: 'kritik',
+                    width: 290,
                     align: "left",
                     editable: true,
-                    editrules: {required: false},
-                    editoptions: {size: 40}
+                    editrules: {required: true}
                 },
                 {
-                    label: 'Update Date',
+                    label: 'Saran',
+                    name: 'saran',
+                    width: 290,
+                    align: "left",
+                    editable: true,
+                    editrules: {required: true}
+                },
+                {
+                    label: 'Tanggal Kritik',
                     name: 'update_date',
                     width: 190,
                     align: "left",
                     editable: false,
-                    editrules: {required: true},
+                    editrules: {required: false},
                     editoptions: {size: 40}
                 },
                 {
@@ -76,7 +81,8 @@
                     align: "left",
                     editable: false,
                     editrules: {required: true},
-                    editoptions: {size: 40}
+                    editoptions: {size: 40},
+                    hidden : true
                 }
             ],
             width: width,
@@ -84,25 +90,14 @@
             rowNum: 10,
             viewrecords: true,
             rowList: [10, 20, 50],
-            sortname: 'rw_code',
+            sortname: 'kritik_saran_id',
             rownumbers: true,
             rownumWidth: 35,
             sortorder: 'asc',
             altRows: true,
-            shrinkToFit: false,
+            shrinkToFit: true,
             multiboxonly: true,
             onSelectRow: function (rowid) {
-                var celValue = grid.jqGrid('getCell', rowid, 'rw_code');
-                var grid_id = $("#jqGridDetails");
-                if (rowid != null) {
-                    grid_id.jqGrid('setGridParam', {
-                        url: "<?php echo site_url('rt_rw/gridRT');?>/" + rowid,
-                        datatype: 'json',
-                        postData: {rw_id: rowid}
-                    });
-                    $("#detailsPlaceholder").show();
-                    $("#jqGridDetails").trigger("reloadGrid");
-                }
             },
             pager: '#pager',
             jsonReader: {
@@ -120,19 +115,22 @@
                     enableTooltips(table);
                 }, 0);
             },
-            editurl: '<?php echo site_url('rt_rw/crudRW');?>'
+            onSelectRow: function (rowid) {
+            },
+
+            editurl: '<?php echo site_url('penduduk/crudKritikSaran');?>'
 
 
         });
         //navButtons grid master
         grid.jqGrid('navGrid', '#pager',
             { 	//navbar options
-                edit: true,
+                edit: false,
                 excel: true,
                 editicon: 'ace-icon fa fa-pencil blue',
-                add: true,
+                add: false,
                 addicon: 'ace-icon fa fa-plus-circle purple',
-                del: true,
+                del: false,
                 delicon: 'ace-icon fa fa-trash-o red',
                 search: true,
                 searchicon: 'ace-icon fa fa-search orange',
@@ -144,7 +142,7 @@
             {
                 // options for the Edit Dialog
                 closeAfterEdit: true,
-                width: 400,
+                width: 'auto',
                 errorTextFormat: function (data) {
                     return 'Error: ' + data.responseText
                 },
@@ -153,11 +151,13 @@
                     var form = $(e[0]);
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
+                    form.css({"height": 0.515 * screen.height + "px"});
+                    form.css({"width": 0.45 * screen.width + "px"});
                 }
             },
             {
                 //new record form
-                width: 400,
+                width: 'auto',
                 errorTextFormat: function (data) {
                     return 'Error: ' + data.responseText
                 },
@@ -169,8 +169,15 @@
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
                         .wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
-                   // form.css({"height": 0.515 * screen.height + "px"});
-                    //form.css({"width": 0.45 * screen.width + "px"});
+                    form.css({"height": 0.515 * screen.height + "px"});
+                    form.css({"width": 0.45 * screen.width + "px"});
+                },
+                onInitializeForm : function(formid){
+                    $(formid).attr('enctype','multipart/form-data');
+
+                },
+                afterSubmit : function(response, postdata) { 
+                return [success,message,new_id] 
                 }
             },
             {
@@ -213,189 +220,6 @@
                 }
             }
         )
-
-        //JqGrid Detail
-        $("#jqGridDetails").jqGrid({
-            mtype: "POST",
-            datatype: "json",
-            colModel: [
-                {label: 'ID', name: 'rt_id', key: true, autowidth: true, editable: true, hidden: true},
-                {label: 'Nama RT',
-                    name: 'rt_code',
-                    editable: true,
-                    editrules: {required: true},
-                    editoptions: {size: 40}
-                },
-                {
-                    label: 'Keterangan',
-                    name: 'description',
-                    width: 190,
-                    align: "left",
-                    editable: true,
-                    editrules: {required: false},
-                    editoptions: {size: 40}
-                },
-                {
-                    label: 'Update Date',
-                    name: 'update_date',
-                    width: 190,
-                    align: "left",
-                    editable: false,
-                    editrules: {required: true},
-                    editoptions: {size: 40}
-                },
-                {
-                    label: 'Update By',
-                    name: 'update_by',
-                    width: 190,
-                    align: "left",
-                    editable: false,
-                    editrules: {required: true},
-                    editoptions: {size: 40}
-                }
-            ],
-            width: width,
-            height: '100%',
-            rowNum: 5,
-            page: 1,
-            shrinkToFit: false,
-            rownumbers: true,
-            rownumWidth: 35, // the width of the row numbers columns
-            viewrecords: true,
-            sortname: 'rt_code ', // default sorting ID
-            caption: 'Daftar RT',
-            sortorder: 'asc',
-            pager: "#jqGridDetailsPager",
-            jsonReader: {
-                root: 'Data',
-                id: 'id',
-                repeatitems: false
-            },
-            loadComplete: function () {
-                var table = this;
-                setTimeout(function () {
-                    //  styleCheckbox(table);
-
-                    //  updateActionIcons(table);
-                    updatePagerIcons(table);
-                    enableTooltips(table);
-                }, 0);
-            },
-            editurl: '<?php echo site_url('rt_rw/crudRT');?>'
-        });
-
-
-
-        //navButtons Grid Detail
-        $('#jqGridDetails').jqGrid('navGrid', '#jqGridDetailsPager',
-            {   //navbar options
-                edit: true,
-                excel: true,
-                editicon: 'ace-icon fa fa-pencil blue',
-                add:  true,
-                addicon: 'ace-icon fa fa-plus-circle purple',
-                del: true,
-                delicon: 'ace-icon fa fa-trash-o red',
-                search: true,
-                searchicon: 'ace-icon fa fa-search orange',
-                refresh: true,
-                refreshicon: 'ace-icon fa fa-refresh green',
-                view: false,
-                viewicon: 'ace-icon fa fa-search-plus grey'
-            },
-            {
-
-                // options for the Edit Dialog
-                editData: {
-                    rw_id: function () {
-                        var data = jQuery("#jqGridDetails").jqGrid('getGridParam', 'postData');
-                        return data.rw_id;
-                    }
-                },
-                closeAfterEdit: true,
-                width: 500,
-                errorTextFormat: function (data) {
-                    return 'Error: ' + data.responseText
-                },
-                recreateForm: true,
-                beforeShowForm: function (e) {
-                    var form = $(e[0]);
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
-                    style_edit_form(form);
-                }
-            },
-            {
-
-                editData: {
-                    rw_id: function () {
-                        var data = jQuery("#jqGridDetails").jqGrid('getGridParam', 'postData');
-                        return data.rw_id;
-                    }
-                },
-                onClickButton: function () {
-                    alert('sss');
-                },
-                //new record form
-                width: 400,
-                errorTextFormat: function (data) {
-                    return 'Error: ' + data.responseText
-                },
-                closeAfterAdd: true,
-                recreateForm: true,
-                viewPagerButtons: false,
-                beforeShowForm: function (e) {
-                    var form = $(e[0]);
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
-                        .wrapInner('<div class="widget-header" />');
-                    style_edit_form(form);
-                }
-
-            },
-            {
-                //delete record form
-                recreateForm: true,
-                beforeShowForm: function (e) {
-                    var form = $(e[0]);
-                    if (form.data('styled')) return false;
-
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
-                    style_delete_form(form);
-
-                    form.data('styled', true);
-                },
-                onClick: function (e) {
-                    //alert(1);
-                }
-            },
-            {
-                //search form
-                //closeAfterSearch: true,
-                recreateForm: true,
-                afterShowSearch: function (e) {
-                    var form = $(e[0]);
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />');
-                    style_search_form(form);
-                },
-                afterRedraw: function () {
-                    style_search_filters($(this));
-                }
-
-                // multipleSearch: true
-                /**
-                 multipleGroup:true,
-                 showQuery: true
-                 */
-            },
-            {
-                //view record form
-                recreateForm: true,
-                beforeShowForm: function (e) {
-                    var form = $(e[0]);
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
-                }
-            }
-        );
-
 
         function style_edit_form(form) {
             //enable datepicker on "sdate" field and switches for "stock" field

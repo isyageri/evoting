@@ -1,7 +1,7 @@
 <?php
 $menu = "";
 $module_id = $this->session->userdata("module_id");
-        $result = $this->M_profiling->getMenuByModule($module_id);
+        $result = $this->M_profiling->getAllMenuAktif();
 
         foreach ($result as $datas) {
             $data[$datas->parent_id][] = $datas;
@@ -53,8 +53,43 @@ function get_menu($data, $parent = 0) {
 ?>
 
 <div id="sidebar" class="sidebar  responsive">
+    <div id="sidebar-shortcuts" class="sidebar-shortcuts">
+        <div id="sidebar-shortcuts-large" class="sidebar-shortcuts-large">
+            <button class="btn btn-success">
+                <i class="ace-icon fa fa-signal"></i>
+            </button>
+
+            <button class="btn btn-info">
+                <i class="ace-icon fa fa-pencil"></i>
+            </button>
+
+            <!-- #section:basics/sidebar.layout.shortcuts -->
+            <button class="btn btn-warning">
+                <i class="ace-icon fa fa-users"></i>
+            </button>
+
+            <button class="btn btn-danger">
+                <i class="ace-icon fa fa-cogs"></i>
+            </button>
+
+            <!-- /section:basics/sidebar.layout.shortcuts -->
+        </div>
+
+        <div id="sidebar-shortcuts-mini" class="sidebar-shortcuts-mini">
+            <span class="btn btn-success"></span>
+
+            <span class="btn btn-info"></span>
+
+            <span class="btn btn-warning"></span>
+
+            <span class="btn btn-danger"></span>
+        </div>
+    </div>
 <!-- List Menu -->
     <ul class="nav nav-list">
+        <li href="<?php echo site_url('apps/dashboard');?>" id="<?php echo site_url('apps/dashboard');?>" class="setting_nav active">
+            <a class="dropdown-toggle" href="#">
+                <i class="menu-icon fa fa-dashboard"></i><span class="menu-text">Dashboard</span></a><b class="arrow"></b></li>
         <?php echo $menu;?>
     </ul><!-- /.nav-list -->
     <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">

@@ -24,13 +24,13 @@
 
 <!--Ajax Menu-->
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
 
-        if(jQuery('#preloader').length > 0) {
+        if (jQuery('#preloader').length > 0) {
 
-            jQuery(window).load(function() {
+            jQuery(window).load(function () {
 
-                jQuery('#preloader').fadeOut(1000, function() {
+                jQuery('#preloader').fadeOut(1000, function () {
                     jQuery('#preloader').remove();
                 });
 
@@ -66,32 +66,32 @@
         data: csfrData
     });
     $(document).ready(function () {
-         $('.setting_nav').click(function(){
-         var nav = $(this).attr('id');
-         var ctrl = $(this).attr('href');
-         if(!nav){
-         //                return false;
-         }else{
-         $("#nav_lvl1").removeClass('active');
-         $(".setting_nav").removeClass('active');
-         $(this).addClass('active');
-         var title = $(this).text();
-         $.ajax({
-         type: 'POST',
-         url: ctrl,
-         data: {title:title},
-         success: function(data) {
-         $("#ajaxContent").html(data);
-         },
-         error: function(jqXHR, textStatus, errorThrown){
-         $("#ajaxContent").html(errorThrown);
-         },
-         timeout: 10000 // sets timeout to 10 seconds
-         })
-         return false;
-         }
+        $('.setting_nav').click(function () {
+            var nav = $(this).attr('id');
+            var ctrl = $(this).attr('href');
+            if (!nav) {
+                //                return false;
+            } else {
+                $("#nav_lvl1").removeClass('active');
+                $(".setting_nav").removeClass('active');
+                $(this).addClass('active');
+                var title = $(this).text();
+                $.ajax({
+                    type: 'POST',
+                    url: ctrl,
+                    data: {title: title},
+                    success: function (data) {
+                        $("#ajaxContent").html(data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $("#ajaxContent").html(errorThrown);
+                    },
+                    timeout: 10000 // sets timeout to 10 seconds
+                })
+                return false;
+            }
 
-         })
+        })
     })
 
 </script>
@@ -142,8 +142,8 @@
 
 <!-- JqGrid -->
 <script src="<?php echo base_url(); ?>assets/js/date-time/bootstrap-datepicker.js"></script>
-<script src="<?php echo base_url();?>assets/js/jqGrid/jquery.jqGrid.src.js"></script>
-<script src="<?php echo base_url();?>assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/jqGrid/jquery.jqGrid.src.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/jqGrid/i18n/grid.locale-en.js"></script>
 
 <script src="<?php echo base_url(); ?>assets/js/accounting/accounting.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/accounting/accounting.min.js"></script>

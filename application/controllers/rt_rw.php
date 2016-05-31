@@ -170,5 +170,13 @@ class Rt_rw extends CI_Controller
          $this->M_penduduk->crud_penduduk();
     }
 
+    public function crudRW(){
+        $this->M_global->crud_RW();
+    }
+
+    public function crudRT(){
+        $this->M_global->crud_RT();
+    }
+
 
 }

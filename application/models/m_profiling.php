@@ -91,6 +91,13 @@ class M_profiling extends CI_Model {
     	$q = $this->db->get('menu');
     	return $q->result();
     }
+
+	public function getAllMenuAktif() {
+		$this->db->where('is_active',1);
+		$this->db->order_by('code','asc');
+		$q = $this->db->get('menu');
+		return $q->result();
+	}
 	
 	public function getBreadcrumb($menu_id) {
 		$str = "";
@@ -204,4 +211,3 @@ class M_profiling extends CI_Model {
 	// ========== Launcher :: EOL ========== //
 	
 }
-?>

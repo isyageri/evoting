@@ -10,15 +10,6 @@ class M_penduduk extends CI_Model
         $this->load->helper('sequence');
     }
 
-   
-
-   
-
-    
-
-    
-
-    
 
     public function crud_penduduk()
     {

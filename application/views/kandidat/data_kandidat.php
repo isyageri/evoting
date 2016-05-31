@@ -104,6 +104,20 @@
                     editable: false,
                     editrules: {required: true},
                     editoptions: {size: 40}
+                },
+                {
+                    name: 'fileToUpload',
+                    index: 'customer_id',
+                    align: 'left',
+                    editable: true,
+                    edittype: 'file',
+                    editoptions: {
+                        enctype: "multipart/form-data"
+                    },
+                    width: 210,
+                    align: 'center',
+                    formatter: function(){},
+                    search: false
                 }
             ],
             width: width,
@@ -197,6 +211,13 @@
                     style_edit_form(form);
                     form.css({"height": 0.515 * screen.height + "px"});
                     form.css({"width": 0.45 * screen.width + "px"});
+                },
+                onInitializeForm : function(formid){
+                    $(formid).attr('enctype','multipart/form-data');
+
+                },
+                afterSubmit : function(response, postdata) { 
+                return [success,message,new_id] 
                 }
             },
             {

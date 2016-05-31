@@ -78,7 +78,7 @@
         <!-- /section:basics/sidebar.mobile.toggle -->
         <div class="navbar-header pull-left">
             <!-- #section:basics/navbar.layout.brand -->
-            <a href="<?php echo site_url('home');?>" class="navbar-brand">
+            <a href="<?php echo site_url('apps');?>" class="navbar-brand">
                 <small>
                     <i class="fa fa-cubes"></i>
                     Evoting
@@ -145,9 +145,9 @@
         <div class="main-content-inner">
             <div id="ajaxContent">
 
-                <script type="text/javascript">
+               <!-- <script type="text/javascript">
                     $(function() {
                        // $('.nav a[href~="#"]').parents('li').addClass('active open');
                         $('.nav a[href~="' + location.href + '"]').parents('li').addClass('active');
                     });
-                </script>
+                </script>-->

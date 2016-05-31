@@ -16,7 +16,6 @@ class Penduduk extends CI_Controller
         $this->load->model('M_global');
         $this->load->model('M_penduduk');
 
-
     }
 
     public function index()
@@ -88,6 +87,7 @@ class Penduduk extends CI_Controller
     {
         $result = $this->M_global->getListRT();
         echo "<select>";
+        echo "<option value=''>Plih RT</option>";
         foreach ($result as $value) {
             echo "<option value=" . $value['rt_id'] . ">" . $value['rt_code'] . "</option>";
         }
@@ -98,6 +98,7 @@ class Penduduk extends CI_Controller
     {
         $result = $this->M_global->getListRW();
         echo "<select>";
+        echo "<option value=''>Plih RW</option>";
         foreach ($result as $value) {
             echo "<option value=" . $value['rw_id'] . ">" . $value['rw_code'] . "</option>";
         }
@@ -107,6 +108,69 @@ class Penduduk extends CI_Controller
 
     public function crudPenduduk(){
          $this->M_penduduk->crud_penduduk();
+    }
+
+    public function kritik_saran(){
+        $this->load->view('kritik_saran');
+    }
+
+    public function gridKritikSaran()
+    {
+        $page = intval($_REQUEST['page']); // Page
+        $limit = intval($_REQUEST['rows']); // Number of record/page
+        $sidx = $_REQUEST['sidx']; // Field name
+        $sord = $_REQUEST['sord']; // Asc / Desc
+
+        $table = "kritik_saran";
+
+        //JqGrid Parameters
+        $req_param = array(
+            "table" => $table,
+            "sort_by" => $sidx,
+            "sord" => $sord,
+            "limit" => null,
+            "field" => null,
+            "where" => null,
+            "where_in" => null,
+            "where_not_in" => null,
+            "or_where" => null,
+            "or_where_in" => null,
+            "or_where_not_in" => null,
+            "search" => $this->input->post('_search'),
+            "search_field" => ($this->input->post('searchField')) ? $this->input->post('searchField') : null,
+            "search_operator" => ($this->input->post('searchOper')) ? $this->input->post('searchOper') : null,
+            "search_str" => ($this->input->post('searchString')) ? ($this->input->post('searchString')) : null
+        );
+
+        // Filter Table *
+
+        $count = $this->jqGrid->countAll($req_param);
+
+        if ($count > 0) {
+            $total_pages = ceil($count / $limit);
+        } else {
+            $total_pages = 0;
+        }
+        if ($page > $total_pages)
+            $page = $total_pages;
+        $start = $limit * $page - $limit;
+
+        $req_param['limit'] = array(
+            'start' => $start,
+            'end' => $limit
+        );
+
+        if ($page == 0) {
+            $result['page'] = 1;
+        } else {
+            $result['page'] = $page;
+        }
+        $result['total'] = $total_pages;
+        $result['records'] = $count;
+
+        $result['Data'] = $this->jqGrid->get_data($req_param)->result_array();
+        echo json_encode($result);
+
     }
 
 

@@ -20,9 +20,13 @@ class Apps extends CI_Controller
     public function index()
     {
         $this->load->view('template_in/header');
-        //$this->load->view('penduduk/data_penduduk');
+        $this->load->view('dashboard');
         $this->load->view('template_in/footer');
 
+    }
+
+    public function dashboard(){
+        $this->load->view('dashboard');
     }
 
 
